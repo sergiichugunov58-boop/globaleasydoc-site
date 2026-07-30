@@ -1,8 +1,36 @@
+// Тема (светлая/тёмная), по умолчанию — светлая
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('gedTheme', theme);
+}
+
+function initTheme() {
+  const saved = localStorage.getItem('gedTheme') || 'light';
+  applyTheme(saved);
+  document.querySelectorAll('.theme-toggle').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme') || 'light';
+      applyTheme(current === 'light' ? 'dark' : 'light');
+    });
+  });
+}
+
+// Отправка формы заявки с локализованным сообщением об успехе
+function submitLeadForm(event) {
+  event.preventDefault();
+  const lang = window.__currentLang || 'ru';
+  const dict = (typeof translations !== 'undefined' && translations[lang]) || {};
+  event.target.reset();
+  alert(dict['form.success'] || 'Заявка отправлена.');
+}
+
 // Инициализация line-icons (Lucide)
 document.addEventListener('DOMContentLoaded', () => {
   if (window.lucide) {
     lucide.createIcons();
   }
+
+  initTheme();
 
   // Мобильное меню
   const menuBtn = document.getElementById('menu-toggle');
