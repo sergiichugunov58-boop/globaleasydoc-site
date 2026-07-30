@@ -1,0 +1,230 @@
+/* ===== Design tokens ===== */
+:root {
+  --color-primary: #152238;      /* тёмно-синий/графит — фирменный, для шапки/hero/футера в обеих темах */
+  --color-primary-light: #223252;
+  --color-accent: #B4622E;       /* терракотовый — единственный акцент */
+  --color-accent-dark: #954E22;
+
+  /* Поверхности и текст — переключаются темой */
+  --color-bg: #F7F6F2;           /* фон страницы */
+  --color-surface: #FFFFFF;      /* фон "белых" секций */
+  --color-card-bg: #FFFFFF;      /* фон карточек */
+  --color-border: #E3DFD3;
+  --color-text: #152238;
+  --color-text-muted: #5B5E66;
+}
+
+/* Тёмная тема */
+[data-theme="dark"] {
+  --color-bg: #0E1420;
+  --color-surface: #151D2E;
+  --color-card-bg: #1A2338;
+  --color-border: #2B3752;
+  --color-text: #EDEFF3;
+  --color-text-muted: #9BA4B5;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Заголовки — плотное начертание, весомость */
+h1, h2, h3, h4, .heading-weight {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* Крупные цифры доверия — "тяжёлые", не тонкие */
+.stat-number {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Плоские карточки — тонкая граница, небольшой radius, без "app"-скруглений */
+.card {
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Карточка с фото сверху (услуги, процесс) */
+.card-media {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 10px 10px 0 0;
+}
+.card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Круглые аватары отзывов */
+.avatar-photo {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+/* Затемнение поверх фоновых фото в hero, чтобы текст оставался читаемым */
+.hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.hero-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.hero-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(21,34,56,0.88) 0%, rgba(21,34,56,0.93) 60%, rgba(21,34,56,0.97) 100%);
+}
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Кнопки */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 0.85rem 1.5rem;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.btn-primary {
+  background: var(--color-accent);
+  color: #FBF3EC;
+}
+.btn-primary:hover {
+  background: var(--color-accent-dark);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.35);
+  color: #FFFFFF;
+}
+.btn-outline:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.6);
+}
+
+.btn-outline-dark {
+  background: transparent;
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
+}
+.btn-outline-dark:hover {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+/* Ненавязчивая анимация появления при скролле */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* FAQ accordion */
+.faq-item .faq-icon {
+  transition: transform 0.2s ease;
+}
+.faq-item.open .faq-icon {
+  transform: rotate(45deg);
+}
+.faq-item .faq-answer {
+  display: none;
+}
+.faq-item.open .faq-answer {
+  display: block;
+}
+
+/* Мобильное меню */
+#mobile-menu {
+  display: none;
+}
+#mobile-menu.open {
+  display: block;
+}
+
+/* Переключатель языка RU/EN */
+.lang-switch {
+  display: flex;
+  align-items: center;
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.lang-btn {
+  background: transparent;
+  color: rgba(255,255,255,0.65);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+.lang-btn.active {
+  background: rgba(255,255,255,0.14);
+  color: #FFFFFF;
+}
+
+/* Переключатель темы */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.25);
+  color: rgba(255,255,255,0.85);
+  background: transparent;
+  cursor: pointer;
+}
+.theme-toggle:hover {
+  background: rgba(255,255,255,0.1);
+}
+.theme-toggle .icon-moon { display: none; }
+[data-theme="dark"] .theme-toggle .icon-sun { display: none; }
+[data-theme="dark"] .theme-toggle .icon-moon { display: inline-block; }
+
+/* Иконки line-icons — единый размер по умолчанию */
+.icon {
+  width: 22px;
+  height: 22px;
+  stroke-width: 1.75;
+}
